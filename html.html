@@ -1,251 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Certificate Verification - Unified Mentor</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate Verification - Unified Mentor</title>
 
-<script src="https://unpkg.com/html5-qrcode"></script>
-  <!-- Google Font (similar to certificate style) -->
-  
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
 
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f1f3f6;
-      margin: 0;
-    }
-    
+/* GLOBAL */
 body {
   font-family: 'Poppins', sans-serif;
-  background: #f1f3f6;
+  background: linear-gradient(135deg, #eef2f7, #dfe9f3);
   margin: 0;
   animation: fadeIn 1s ease-in;
 }
 
-@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-@keyframes slideUp { from {transform:translateY(40px);opacity:0;} to {transform:translateY(0);opacity:1;} }
-@keyframes pulse { 0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);} }
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
+}
 
+@keyframes slideUp {
+  from {transform: translateY(50px); opacity:0;}
+  to {transform: translateY(0); opacity:1;}
+}
 
-    .header {
-      background: #0a1f44;
-      color: white;
-      padding: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-    }
+@keyframes glow {
+  0% {box-shadow: 0 0 5px rgba(0,0,0,0.1);}
+  50% {box-shadow: 0 0 20px rgba(0,123,255,0.4);}
+  100% {box-shadow: 0 0 5px rgba(0,0,0,0.1);}
+}
 
-    .header img {
-      width: 50px;
-    }
+@keyframes pulse {
+  0% {transform: scale(1);}
+  50% {transform: scale(1.05);}
+  100% {transform: scale(1);}
+}
 
-    .header h1 {
-      font-size: 18px;
-      margin: 0;
-      font-weight: 500;
-    }
+/* HEADER */
+.header {
+  background: #0a1f44;
+  color: white;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
 
-    .container {
-      max-width: 750px;
-      margin: 30px auto;
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-      text-align: center;
-    }
+.header img {
+  width: 50px;
+}
 
-    .status {
-      background: #e6f4ea;
-      color: #1e7e34;
-      padding: 10px;
-      border-radius: 6px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      border: 1px solid #c3e6cb;
-    }
+.header h1 {
+  font-size: 18px;
+  margin: 0;
+}
 
-    .certificate-img {
-      width: 100%;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      margin-top: 15px;
-    }
+/* MAIN CONTAINER */
+.container {
+  max-width: 750px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  animation: slideUp 0.8s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
 
-    .details {
-      text-align: left;
-      margin-top: 20px;
-      font-size: 14px;
-      color: #333;
-    }
+/* STATUS */
+.success-badge {
+  color: #28a745;
+  font-weight: 600;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
 
-    .details p {
-      margin: 6px 0;
-    }
+/* CERTIFICATE IMAGE */
+.certificate-img {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 15px;
+  transition: 0.4s;
+}
 
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 20px;
-      background: #0a1f44;
-      color: white;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 500;
-    }
+.certificate-img:hover {
+  transform: scale(1.02);
+  animation: glow 2s infinite;
+}
 
-    .btn:hover {
-      background: #132f63;
-    }
+/* INFO CARD */
+.info-card {
+  text-align: left;
+  margin-top: 25px;
+  border-radius: 10px;
+  padding: 20px;
+  background: #f9fbfd;
+  border: 1px solid #e0e6ed;
+}
 
-    .footer {
-      margin-top: 25px;
-      font-size: 12px;
-      color: #777;
-    }
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
 
-  </style>
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  color: #666;
+}
+
+.value {
+  font-weight: 600;
+}
+
+/* BUTTON */
+.btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 25px;
+  background: #0a1f44;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #132f63;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #777;
+}
+
+</style>
 </head>
+
 <body>
 
-  <!-- Government Style Header -->
-   <div class=""</div>
-  <div class="header">
-    <img link="https://unifiedmentor.com" src="Image 1.jpg" alt="Logo">
-    <h1>Unified Mentor Pvt Ltd - Certificate Verification Portal</h1>
-  </div>
+<!-- HEADER -->
+</div>
+<div class="header">
+  <img src="Image 1.jpg" alt="Logo">
+  <h1>Unified Mentor Pvt Ltd - Certificate Verification Portal</h1>
+</div>
 
-  <div class="container">
-
-   
-
-    <p>This certificate is officially issued and verified by <br>
-      <a href="https://unifiedmentor.com" target="_blank"><strong>Unified Mentor Pvt Ltd</strong></a>
-    </p>
-
-    <!-- Certificate -->
-    <a href="https://ibb.co/Hf5q70x8"><img src="https://i.ibb.co/4nhpWcYr/Tamana-Yadav-8.jpg" alt="Tamana-Yadav-8" border="0"></a>
-
-    <!-- Details -->
-       <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f9;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 600px;
-            width: 90%;
-            text-align: center;
-        }
-        .header {
-            margin-bottom: 30px;
-        }
-        
-        .success-badge {
-            color: #28a745;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .info-card {
-            text-align: left;
-            border: 1px solid #e0e6ed;
-            border-radius: 8px;
-            padding: 20px;
-            background: #fafbfc;
-        }
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .info-row:last-child {
-            border-bottom: none;
-        }
-        .label {
-            color: #666;
-            font-weight: 500;
-        }
-        .value {
-            color: #333;
-            font-weight: 700;
-        }
-        .footer-note {
-            margin-top: 25px;
-            font-size: 0.85rem;
-            color: #888;
-        }
-        .btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 25px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-
+<!-- MAIN -->
 <div class="container">
-   <div></div>
 
-    <div class="success-badge">
-        <span>✓</span> Certificate Successfully Verified
-    </div>
+  <p>
+    This certificate is officially issued and verified by <br>
+    <strong>Unified Mentor Pvt Ltd</strong>
+  </p>
 
-    <div class="info-card">
-        <div class="info-row">
-            <span class="label">Certificate ID:</span>
-            <span class="value">UMID02012676839</span>
-        </div>
-        <div class="info-row">
-            <span class="label">Candidate Name:</span>
-            <span class="value">Tamana Dagar</span>
-        </div>
-        <div class="info-row">
-            <span class="label">Domain:</span>
-            <span class="value">Data Analyst Intern</span>
-        </div>
-        <div class="info-row">
-            <span class="label">Duration:</span>
-            <span class="value">4 Weeks (Evening shift)</span>
-        </div>
-        <div class="info-row">
-            <span class="label">Status:</span>
-            <span class="value" style="color: #28a745;">Completed</span>
-        </div>
-    </div>
+  <!-- CERTIFICATE -->
+  <img src="Tamana Yadav-8.jpeg" class="certificate-img" alt="Certificate">
 
-
-    <!-- Download Button -->
-    <a href="Tamana Yadav-8.jpeg" download class="btn">⬇ Download Certificate</a>
-
-    <div class="footer">
-      This is a system-generated verification page. For queries, contact official organization.
-    </div>
-
+  <!-- STATUS -->
+  <div class="success-badge">
+    ✓ Certificate Successfully Verified
   </div>
+
+  <!-- DETAILS -->
+  <div class="info-card">
+    <div class="info-row">
+      <span class="label">Certificate ID:</span>
+      <span class="value">UMID02012676839</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Candidate Name:</span>
+      <span class="value">Tamana Dagar</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Domain:</span>
+      <span class="value">Data Analyst Intern</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Duration:</span>
+      <span class="value">4 Weeks (Evening shift)</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Status:</span>
+      <span class="value" style="color:#28a745;">Completed</span>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD -->
+  <a href="Tamana Yadav-8.jpeg" download class="btn">
+    ⬇ Download Certificate
+  </a>
+
+  <div class="footer">
+    This is a system-generated verification page. For queries, contact official organization.
+  </div>
+
+</div>
 
 </body>
 </html>
